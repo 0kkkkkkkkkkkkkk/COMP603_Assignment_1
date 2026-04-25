@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.feedmejava.ui;
+package User_Interface;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Menu {
         ui.displayText("3. Exit");
 
         try {
-            return Integer.parseInt(ui.getUserInput("Choose option: "));
+            return Integer.parseInt(ui.getUserInput("Choose option (1/2/3): "));
         } catch (NumberFormatException e) {
             ui.displayError("Invalid input.");
             return -1;

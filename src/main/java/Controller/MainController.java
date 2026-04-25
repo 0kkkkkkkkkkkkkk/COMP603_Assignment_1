@@ -2,17 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.feedmejava.controller;
+package Controller;
 
 /**
  *
  * @author hmarl
  */
 
-import com.feedmejava.model.*;
-import com.feedmejava.persistence.*;
-import com.feedmejava.question.*;
-import com.feedmejava.ui.*;
+import User_Interface.CUI;
+import User_Interface.UI;
+import User_Interface.Menu;
+import Question.Question;
+import Question.QuestionPool;
+import Persistence.UserRecordFileIO;
+import Persistence.UserRecord;
+import Model.User;
+import Model.QuizSession;
 
 import java.util.List;
 
@@ -54,11 +59,12 @@ public class MainController {
         String petName = ui.getUserInput("Enter pet name: ");
 
         User user = new User(username, petName, 0);
-
+        
         List<Question> questions = questionPool.getRandomQuestions(10);
-
+        ui.displayText("You are enrolled in the Java competition! Answer all 10 quiz questions correctly to win."
+                + "\nNote! Please enter the number of the option you think is correct");
+        ui.displayText("DEBUG: Number of questions = " + questions.size() + "\n");
         quiz = new QuizSession(0, questions, 0, user);
-
         runQuiz();
     }
 
@@ -110,10 +116,42 @@ public class MainController {
     }
 
     private void finishQuiz() {
-        String result = quiz.calculateResult();
-        ui.displayText("Result: " + result);
 
-        // TODO: update high score + save
+        int score = quiz.getNumCorrectAnswers();
+        int totalQuestions = quiz.getQuestions().size();
+
+        String result = quiz.calculateResult();
+
+        // 1. Show score + result
+        ui.displayText("You got " + score + "/" + totalQuestions + " questions correct.");
+        ui.displayText("Result: " + result);
+        ui.displayText("");
+
+        // 2. Ask to save score
+        String saveChoice = ui.getUserInput("Would you like to save your score? (y/n): ");
+
+        if (saveChoice.equalsIgnoreCase("y")) {
+
+            // update high score if better
+            User user = quiz.getUser();
+
+            if (score > user.getHighScore()) {
+                user.setHighScore(score);
+            }
+
+            userRecord.saveRecord(user);
+
+            ui.displayText("Score saved.");
+        }
+
+        // 3. Ask to continue
+        String continueChoice = ui.getUserInput("Would you like to like to return to title? (y/n): ");
+
+        if (continueChoice.equalsIgnoreCase("n")) {
+            exit();
+        }
+
+        // if yes -> returns to menu automatically
     }
 
     private void handleExitDuringGame() {

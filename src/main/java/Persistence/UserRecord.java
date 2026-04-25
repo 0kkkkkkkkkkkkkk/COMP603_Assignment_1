@@ -2,15 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.feedmejava.persistence;
+package Persistence;
 
 /**
  *
  * @author hmarl
  */
 
-import com.feedmejava.model.User;
-import com.feedmejava.model.QuizSession;
+import Model.User;
+import Model.QuizSession;
 
 public interface UserRecord {
     void saveRecord(User user);
