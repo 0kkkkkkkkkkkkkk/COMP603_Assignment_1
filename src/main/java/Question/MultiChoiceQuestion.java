@@ -14,7 +14,7 @@ public class MultiChoiceQuestion implements Question {
     private int answer;
     private int id;
 
-    public MultiChoiceQuestion(String questionText, int id, int answer) {
+    public MultiChoiceQuestion(String questionText, int answer, int id) {
         this.id = id;
         this.questionText = questionText;
         this.answer = answer;
@@ -24,12 +24,12 @@ public class MultiChoiceQuestion implements Question {
     public String getQuestionText() {
         return questionText;
     }
-
+    
     @Override
     public boolean checkAnswer(String userAnswer) {
         try {
-            int userChoice = Integer.parseInt(userAnswer.trim());
-            return userChoice == answer;
+            int choice = Integer.parseInt(userAnswer.trim());
+            return choice == answer;
         } catch (NumberFormatException e) {
             return false;
         }

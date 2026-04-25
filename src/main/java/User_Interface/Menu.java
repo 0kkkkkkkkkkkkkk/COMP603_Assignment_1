@@ -21,7 +21,7 @@ public class Menu {
      * Displays menu and returns user choice
      */
     public int displayMenu() {
-        ui.displayText("=== Feed Me Java! ===");
+        ui.displayText("\n=== Feed Me Java! ===");
         ui.displayText("1. Start New Game");
         ui.displayText("2. Load Game");
         ui.displayText("3. Exit");
@@ -29,7 +29,7 @@ public class Menu {
         try {
             return Integer.parseInt(ui.getUserInput("Choose option (1/2/3): "));
         } catch (NumberFormatException e) {
-            ui.displayError("Invalid input.");
+            ui.displayError("Invalid input.\n");
             return -1;
         }
     }

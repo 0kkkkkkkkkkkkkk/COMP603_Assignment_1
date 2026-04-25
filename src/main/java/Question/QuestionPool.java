@@ -68,7 +68,7 @@ public class QuestionPool {
 
         questionPool.put(8, new MultiChoiceQuestion(
             "Which principle allows many forms of a method?\n1. Polymorphism\n2. Compilation\n3. Selection",
-            3, 8));
+            1, 8));
 
         questionPool.put(9, new MultiChoiceQuestion(
             "Which principle allows one class to use another class's features?\n1. Inheritance\n2. Casting\n3. Printing",
