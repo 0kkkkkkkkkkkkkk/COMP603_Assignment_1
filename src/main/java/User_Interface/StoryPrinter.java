@@ -16,6 +16,13 @@ public class StoryPrinter {
         ui.slowPrint("And I plan to FEAST!\" " + pet + " cackled.");
         ui.slowPrint("I paused.");
         ui.slowPrint("\"Well, it would spare my wallet...\"");
+        ui.slowPrint("""
+                         
+                            ^---^
+                          =( owo )=
+                           /     \\  ^
+                          (  U U  )//
+                      """);
         ui.displayText("=================");
     }
 }
