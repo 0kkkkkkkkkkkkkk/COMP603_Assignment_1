@@ -22,16 +22,19 @@ import Model.QuizSession;
 import java.util.List;
 
 public class MainController {
-
+    //added variable to easily adjust question size
+    int numQuestions = 10;
+            
     private UI ui;
     private Menu menu;
     private UserRecord userRecord;
     private QuestionPool questionPool;
-
     private QuizSession quiz;
 
+    //define/initialise objects in constructor
     public MainController() {
         ui = new CUI();
+        //pass on ui object to be used in menu
         menu = new Menu(ui);
         userRecord = new UserRecordFileIO();
         questionPool = new QuestionPool();
@@ -41,6 +44,7 @@ public class MainController {
         new MainController().start();
     }
 
+    //display menu
     public void start() {
         while (true) {
             int choice = menu.displayMenu();
@@ -58,42 +62,42 @@ public class MainController {
         String username = ui.getUserInput("Enter username: ");
         String petName = ui.getUserInput("Enter pet name: ");
 
+        //create new User object with highScore of 0
         User user = new User(username, petName, 0);
         
-        String introChoice = ui.getUserInput("Press ENTER to continue, or type \"s\" to skip opening: ");
+        //ask to display introduction
+        String introChoice = ui.getUserInput("Enter anything to view "
+                + "introduction, or type \"s\" to skip: ");
 
         if (!introChoice.equalsIgnoreCase("s")) {
-
-        ui.displayText("\n=== OPENING ===");
-
-        slowPrint("I was about to relax at home when " + petName + " squeezed through the window.");
-        slowPrint("\"Where did you go, buddy?\" " + username + " pulled " + petName + " into my arms.");
-        slowPrint("\"You're always so adventurous.\"");
-
-        slowPrint("\"I passed by the Animal University of Technology today.");
-        slowPrint("There's a Java competition going on,\" " + petName + " announced.");
-        slowPrint("\"I have enrolled you, " + username + ".\"");
-
-        slowPrint("\"Why!? I don't know much Java,\" " + username + " protested.");
-
-        slowPrint("\"Because first place wins a lifetime supply of pet food.");
-        slowPrint("And I plan to FEAST!\" " + petName + " cackled.");
-
-        slowPrint(username + " paused.");
-        slowPrint("\"Well, it would spare my wallet...\"");
-    }
+            ui.displayText("\n=== INTRODUCTION ===");
+            slowPrint("I was about to relax at home when " + petName + " squeezed through the window.");
+            slowPrint("\"Where did you go, buddy?\" I pulled " + petName + " into my arms.");
+            slowPrint("\"You're always so adventurous.\"");
+            slowPrint("\"I passed by the Animal University of Technology today.");
+            slowPrint("There's a Java competition going on,\" " + petName + " announced.");
+            slowPrint("\"I have enrolled you, " + username + ".\"");
+            slowPrint("\"Why!? I don't know much Java,\" " + "I protested.");
+            slowPrint("\"Because first place wins a lifetime supply of pet food.");
+            slowPrint("And I plan to FEAST!\" " + petName + " cackled.");
+            slowPrint("I paused.");
+            slowPrint("\"Well, it would spare my wallet...\"");
+            ui.displayText("=================");
+        }
         
-        List<Question> questions = questionPool.getRandomQuestions(10);
-        ui.displayText("Quest: You will now attempt the Java competition! Answer all 10 quiz questions correctly to win.\n"
-                + "You can type \"quit\" at any time to leave and save your game\n");
+        //fetch generated questions with size as arg
+        List<Question> questions = questionPool.getRandomQuestions(numQuestions);
+        ui.displayText("\nQuest: You will now attempt the Java competition!");
         //ui.displayText("DEBUG: Number of questions = " + questions.size() + "\n");
-        ui.getUserInput("\nPress ENTER to continue...");
+        ui.getUserInput("Enter anything to continue...");
+        ui.displayText("");
         
-        
+        //create QuizSession object
         quiz = new QuizSession(0, questions, 0, user);
         runQuiz();
     }
     
+    // print with delays for introduction
     private void slowPrint(String text) {
         ui.displayText(text);
 
@@ -106,33 +110,44 @@ public class MainController {
 
     public void loadGame() {
         String username = ui.getUserInput("Enter username: ");
-        ui.displayText("Saved File Found!!");
-        slowPrint("Returning where you left off...\n");
+        //attempt to load save file
         quiz = userRecord.loadGame(username);
-
+        //return if no save file found corresponding to user
         if (quiz == null) {
             ui.displayError("No saved game found.\n");
             return;
         }
 
+        ui.displayText("Saved File Found!!");
+        slowPrint("Returning where you left off...\n");
+        
         runQuiz();
     }
 
     private void runQuiz() {
+        //fetch generated questions
         List<Question> questions = quiz.getQuestions();
 
+        //iterate through questions list, starting at CurrentQuestionIndex
+        //suitable for continuing off a save file and starting new game
         for (int i = quiz.getCurrentQuestionIndex(); i < questions.size(); i++) {
-
+            //get Question object (element) at index i in questions list
             Question q = questions.get(i);
+            int questionNumber = i + 1;
+            //display current question number starting at 1
+            ui.displayText("\n=== QUESTION: "+ questionNumber + " ===");
+            //get question text
             ui.displayText(q.getQuestionText());
 
             String input;
 
             while (true) {
-
+                //get user input
                 input = ui.getUserInput("Answer (1-3 or type 'quit'): ");
-
+                
+                //check if user wants to quit
                 if (input.equalsIgnoreCase("quit")) {
+                    //---why?
                     quiz = new QuizSession(i, questions,
                             quiz.getNumCorrectAnswers(),
                             quiz.getUser());
@@ -142,6 +157,7 @@ public class MainController {
                 }
 
                 try {
+                    //parse string for int
                     int choice = Integer.parseInt(input);
 
                     if (choice >= 1 && choice <= 3) {
@@ -154,56 +170,55 @@ public class MainController {
                     ui.displayError("Please enter a number.");
                 }
             }
-
+            
+            //check if user answers correctly
             if (q.checkAnswer(input)) {
-
                 int newScore = quiz.getNumCorrectAnswers() + 1;
-
+                //--why creating so many QuizSession objects?
                 quiz = new QuizSession(i + 1, questions,
                         newScore, quiz.getUser());
 
                 ui.displayText("Correct!");
 
             } else {
-
                 quiz = new QuizSession(i + 1, questions,
                         quiz.getNumCorrectAnswers(),
                         quiz.getUser());
 
                 ui.displayText("Incorrect.");
             }
-
-            ui.displayText("Score: "
-                    + quiz.getNumCorrectAnswers()
-                    + "/"
-                    + (i + 1)
-                    + "\n");
+            
+            //display question explanation
+            ui.displayText(questions.get(i).getExplanation());
+            //display current score
+            ui.displayText("Score: " + quiz.getNumCorrectAnswers()+ "/"
+                    + questions.size());
+            ui.getUserInput("Enter anything to continue:");
         }
 
-        finishQuiz();   // ✅ after all 10 questions
+        finishQuiz();   // occurs after all questions
     }
 
     private void finishQuiz() {
 
         int score = quiz.getNumCorrectAnswers();
         int totalQuestions = quiz.getQuestions().size();
-
+        //get trophy type
         String result = quiz.calculateResult();
 
+        ui.displayText("\n=== RESULTS ===");
         // 1. Show score + result
         ui.displayText("You got " + score + "/" + totalQuestions + " questions correct.");
-        ui.displayText("Result: " + result);
-        ui.displayText("");
-
+        ui.displayText("Result: " + result + "\n");
 
         // 3. Ask to continue
-        String continueChoice = ui.getUserInput("Would you like to like to return to title? (y/n): ");
+        String continueChoice = ui.getUserInput("Would you like to like to return to menu? (y/n): ");
 
         if (continueChoice.equalsIgnoreCase("n")) {
             exit();
         }
 
-        // if yes -> returns to menu automatically
+        // if yes -> returns to menu automatically because of while true loop
     }
 
     private void handleExitDuringGame() {
@@ -216,7 +231,7 @@ public class MainController {
     }
 
     public void exit() {
-        ui.displayText("Goodbye!");
+        ui.displayText("Thanks for playing!");
         System.exit(0);
     }
 }

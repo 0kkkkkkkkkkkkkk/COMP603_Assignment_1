@@ -19,7 +19,8 @@ public class QuizSession {
     private User user;
 
     public QuizSession(int currentQuestionIndex, List<Question> questions,
-                       int numCorrectAnswers, User user) {
+                       int numCorrectAnswers, User user) 
+    {
         this.currentQuestionIndex = currentQuestionIndex;
         this.questions = questions;
         this.numCorrectAnswers = numCorrectAnswers;
@@ -45,6 +46,7 @@ public class QuizSession {
     public void incrementScore() {
         numCorrectAnswers++;
     }
+
 
 //    public void nextQuestion() {
 //        currentQuestionIndex++;
