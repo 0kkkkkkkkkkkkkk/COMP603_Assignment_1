@@ -57,16 +57,8 @@ public class QuizSession {
     }
     
     public String getScoreText() {
-    return ("You got " + numCorrectAnswers + "/" + questions.size() + " questions correct.");
-}
-    
-    /*
-    //added method to increment current question index on object
-    public void incrementCurrentQuestionIndex()
-    {
-        currentQuestionIndex++;
+        return "You got " + numCorrectAnswers + "/" + questions.size() + " questions correct.";
     }
-    */
     
     //only save highest score in user's file
     public void saveHighestScore()
@@ -103,16 +95,5 @@ public class QuizSession {
         return "No trophy (lose)\n" + user.getPetName() + " says, \"Nice try! "
                 + "Do you think you can do better?\"";
     }
-    
-//    public void nextQuestion() {
-//        currentQuestionIndex++;
-//    }
 
-//    public boolean isFinished() {
-//        return currentQuestionIndex >= questions.size();
-//    }
-
-//    public Question getCurrentQuestion() {
-//        return questions.get(currentQuestionIndex);
-//    }
 }
