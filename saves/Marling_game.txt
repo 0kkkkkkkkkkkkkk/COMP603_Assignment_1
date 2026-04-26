@@ -1,5 +1,5 @@
 username=Marling
-petName=Kit
-currentQuestionIndex=10
-numCorrectAnswers=10
-questions=1,5,19,27,25,16,15,17,3,12,
+petName=Kat
+currentQuestionIndex=15
+numCorrectAnswers=13
+questions=4,1,10,14,5,24,22,11,26,27,25,17,13,3,23,
