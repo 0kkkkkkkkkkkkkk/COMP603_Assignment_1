@@ -20,9 +20,17 @@ public class User {
         this.highScore = highScore;
     }
 
-    public String getUsername() { return username; }
-    public String getPetName() { return petName; }
-    public int getHighScore() { return highScore; }
+    public String getUsername() 
+    { 
+        return username;
+    }
+    public String getPetName()
+    { 
+        return petName;
+    }
+    public int getHighScore() {
+        return highScore;
+    }
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;

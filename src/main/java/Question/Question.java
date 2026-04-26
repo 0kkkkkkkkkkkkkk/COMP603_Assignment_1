@@ -11,6 +11,8 @@ package Question;
 
 public interface Question {
     String getQuestionText();
+    //added explanation 
+    String getExplanation();
     boolean checkAnswer(String userAnswer);
     int getQuestionID();
 }

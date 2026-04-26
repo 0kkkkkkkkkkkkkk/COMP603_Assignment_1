@@ -11,13 +11,16 @@ package Question;
 
 public class MultiChoiceQuestion implements Question {
     private String questionText;
+    //added explanation text
+    private String explanation;
     private int answer;
     private int id;
 
-    public MultiChoiceQuestion(String questionText, int answer, int id) {
-        this.id = id;
+    public MultiChoiceQuestion(String questionText, String explanation, int answer, int id) {
         this.questionText = questionText;
+        this.explanation = explanation;
         this.answer = answer;
+        this.id = id;
     }
 
     @Override
@@ -26,9 +29,16 @@ public class MultiChoiceQuestion implements Question {
     }
     
     @Override
+    public String getExplanation(){
+        return explanation;
+    }
+    
+    @Override
     public boolean checkAnswer(String userAnswer) {
         try {
+            //parse string for integer
             int choice = Integer.parseInt(userAnswer.trim());
+            //check if user input (int) matches question's answer
             return choice == answer;
         } catch (NumberFormatException e) {
             return false;
