@@ -83,10 +83,25 @@ public class QuizSession {
     public String calculateResult() {
         double percentage = (double) numCorrectAnswers / questions.size() * 100;
 
-        if (percentage >= 80) return "Gold trophy";
-        if (percentage >= 70) return "Silver trophy";
-        if (percentage >= 60) return "Bronze trophy";
-        return "Lose :(";
+        if (percentage >= 80)
+        {
+            return "Gold trophy\n" + user.getPetName() + " says: \"Congratulations! "
+                    + "Your wallet has been saved!\"";
+        }
+        if (percentage >= 70)
+        {
+            return "Silver trophy\n" + user.getPetName() + " says, \"Congratulations! "
+                    + "Unfortunately, silver does not get a\nlifetime supply of petfood.\n"
+                    + "Do you think you can do better?\"";
+        }
+        if (percentage >= 60)
+        {
+            return "Bronze trophy\n" + user.getPetName() + " says, \"Congratulations! "
+                    + "Unfortunately, bronze does not get a\nlifetime supply of petfood.\n"
+                    + "Do you think you can do better?\"";
+        }
+        return "No trophy (lose)\n" + user.getPetName() + " says, \"Nice try! "
+                + "Do you think you can do better?\"";
     }
     
 //    public void nextQuestion() {

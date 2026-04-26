@@ -37,4 +37,13 @@ public class User {
         this.highScore = highScore;
     }
     
+    //keep highest ever score only
+    public void saveHighestScore(int numCorrectAnswers)
+    {
+        if (numCorrectAnswers > highScore)
+        {
+            highScore = numCorrectAnswers;
+        }
+    }
+    
 }

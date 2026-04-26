@@ -229,7 +229,7 @@ public class QuestionPool {
             being applied towards in real life
             2) Giving context on what programming language and framework the AI
             should use
-            3) Describing restrictions and   limitations for the AI's output
+            3) Describing restrictions and limitations for the AI's output
             """,
             """
             System Context is one of the elements used to make the AI's output

@@ -1,6 +1,0 @@
-username=Mar
-petName=Kit
-highScore=10
-currentQuestionIndex=10
-numCorrectAnswers=10
-questions=20,10,12,15,24,5,27,17,25,16,

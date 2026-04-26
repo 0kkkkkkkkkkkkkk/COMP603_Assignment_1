@@ -1,0 +1,3 @@
+username=Gold
+petName=Test
+highScore=10
