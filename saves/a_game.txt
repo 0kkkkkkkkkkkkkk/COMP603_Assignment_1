@@ -1,0 +1,6 @@
+username=a
+petName=g
+highScore=2
+currentQuestionIndex=10
+numCorrectAnswers=2
+questions=5,9,8,13,16,21,7,4,27,11,

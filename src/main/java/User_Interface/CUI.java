@@ -29,4 +29,15 @@ public class CUI implements UI {
         System.out.print(prompt);
         return scanner.nextLine();
     }
+    
+    @Override
+    public void slowPrint(String text) {
+        displayText(text);
+
+            try {
+                Thread.sleep(3000); // 3000 ms = 3 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+    }
 }

@@ -12,6 +12,8 @@ package Controller;
 import User_Interface.CUI;
 import User_Interface.UI;
 import User_Interface.Menu;
+import User_Interface.InputHelper;
+import User_Interface.StoryPrinter;
 import Question.Question;
 import Question.QuestionPool;
 import Persistence.UserRecordFileIO;
@@ -32,6 +34,8 @@ public class MainController {
     private QuestionPool questionPool;
     private QuizSession quiz;
     private User user;
+    private InputHelper inHelp;
+    private StoryPrinter storyPrint;
 
     //define objects in constructor
     public MainController() {
@@ -76,27 +80,8 @@ public class MainController {
         String introChoice = ui.getUserInput("Enter anything to view "
                 + "introduction, or type \"s\" to skip: ");
 
-        if (!introChoice.equalsIgnoreCase("s")) {
-            ui.displayText("\n=== INTRODUCTION ===");
-            slowPrint("I was about to relax at home when " + petName + " squeezed through the window.");
-            slowPrint("\"Where did you go, buddy?\" I pulled " + petName + " into my arms.");
-            slowPrint("\"You're always so adventurous.\"");
-            slowPrint("\"I passed by the Animal University of Technology today.");
-            slowPrint("There's a Java competition going on,\" " + petName + " announced.");
-            slowPrint("\"I have enrolled you, " + username + ".\"");
-            slowPrint("\"Why!? I don't know much Java,\" " + "I protested.");
-            slowPrint("\"Because first place wins a lifetime supply of pet food.");
-            slowPrint("And I plan to FEAST!\" " + petName + " cackled.");
-            slowPrint("I paused.");
-            slowPrint("\"Well, it would spare my wallet...\"");
-            slowPrint("""
-                         
-                            ^---^
-                          =( owo )=
-                           /     \\  ^
-                          (  U U  )//
-                      """);
-            ui.displayText("=================");
+        if(!introChoice.equalsIgnoreCase("s")) {
+            storyPrint.showIntro(ui, username, petName);
         }
         
         //fetch generated questions with size as arg
@@ -113,16 +98,6 @@ public class MainController {
         runQuiz();
     }
     
-    // print with delays for introduction
-    private void slowPrint(String text) {
-        ui.displayText(text);
-
-        try {
-            Thread.sleep(4000); // 4000 ms = 4 seconds
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public void loadGame() {
         String username = ui.getUserInput("Enter username: ");
@@ -136,7 +111,7 @@ public class MainController {
         }
         
         ui.displayText("Saved File Found!!");
-        slowPrint("Returning where you left off...\n");
+        ui.slowPrint("Returning where you left off...\n");
         
         runQuiz();
     }
@@ -156,40 +131,15 @@ public class MainController {
             //get question text
             ui.displayText(q.getQuestionText());
 
-            String input;
 
-            while (true) {
-                //get user input
-                input = ui.getUserInput("Answer (1-3 or type 'quit'): ");
-                
-                //check if user wants to quit
-                if (input.equalsIgnoreCase("quit")) {
-                    handleExitDuringGame();
-                    return;
-                }
-
-                try {
-                    //parse string for int
-                    int choice = Integer.parseInt(input);
-
-                    if (choice >= 1 && choice <= 3) {
-                        break;
-                    } else {
-                        ui.displayError("Please enter 1, 2 or 3.");
-                    }
-
-                } catch (NumberFormatException e) {
-                    ui.displayError("Please enter a number.");
-                }
-            }
+            String input = inHelp.getQuizAnswer(ui);
             
             //check if user answers correctly
-            if (q.checkAnswer(input)) {
-                //increase number of correct questions answered
-                quiz.incrementScore();
+            if(q.checkAnswer(input)) {
+                quiz.answerCorrect();
                 ui.displayText("Correct!");
-
             } else {
+                quiz.answerWrong();
                 ui.displayText("Incorrect.");
             }
             //update quiz object by increasing CurrentQuesitonIndex 
@@ -214,10 +164,13 @@ public class MainController {
         //get trophy type
         String result = quiz.calculateResult();
 
+        
         ui.displayText("\n=== RESULTS ===");
         // 1. Show score + result
-        ui.displayText("You got " + score + "/" + totalQuestions + " questions correct.");
+        ui.displayText(quiz.getScoreText());
         ui.displayText("Result: " + result + "\n");
+        
+        //play a concluding scene from bro
                 
         //only keep highest score in user file
         user.saveHighestScore(quiz.getNumCorrectAnswers());
