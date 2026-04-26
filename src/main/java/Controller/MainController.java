@@ -31,6 +31,7 @@ public class MainController {
     private UserRecord userRecord;
     private QuestionPool questionPool;
     private QuizSession quiz;
+    private User user;
 
     //define objects in constructor
     public MainController() {
@@ -64,15 +65,10 @@ public class MainController {
         String username = ui.getUserInput("Enter username: ");
         String petName = ui.getUserInput("Enter pet name: ");
         
-        User user;
         //keep existing highScore if user file already exists
-        quiz = userRecord.loadGame(username);
-        if (quiz != null) {
-            user = new User(username, petName, quiz.getUser().getHighScore());
-        }
-        else
-        {
-            //create new User object with highScore of 0 if user file does not exist
+        user = userRecord.loadRecord(username);
+        //create new user if user file does not exist
+        if (user == null) {
             user = new User(username, petName, 0);
         }
                 
@@ -93,6 +89,13 @@ public class MainController {
             slowPrint("And I plan to FEAST!\" " + petName + " cackled.");
             slowPrint("I paused.");
             slowPrint("\"Well, it would spare my wallet...\"");
+            slowPrint("""
+                         
+                            ^---^
+                          =( owo )=
+                           /     \\  ^
+                          (  U U  )//
+                      """);
             ui.displayText("=================");
         }
         
@@ -124,9 +127,10 @@ public class MainController {
     public void loadGame() {
         String username = ui.getUserInput("Enter username: ");
         //attempt to load save file
+        user = userRecord.loadRecord(username);
         quiz = userRecord.loadGame(username);
         //return if no save file found corresponding to user
-        if (quiz == null) {
+        if (quiz == null || user == null) {
             ui.displayError("No saved game found.\n");
             return;
         }
@@ -181,18 +185,15 @@ public class MainController {
             
             //check if user answers correctly
             if (q.checkAnswer(input)) {
-                //update quiz object by increasing CurrentQuesitonIndex 
-                quiz.incrementCurrentQuestionIndex();
                 //increase number of correct questions answered
                 quiz.incrementScore();
-
                 ui.displayText("Correct!");
 
             } else {
-                //increment current question index only
-                quiz.incrementCurrentQuestionIndex();
                 ui.displayText("Incorrect.");
             }
+            //update quiz object by increasing CurrentQuesitonIndex 
+            quiz.incrementCurrentQuestionIndex();
             
             //display question explanation
             ui.displayText(questions.get(i).getExplanation());
@@ -218,8 +219,10 @@ public class MainController {
         ui.displayText("You got " + score + "/" + totalQuestions + " questions correct.");
         ui.displayText("Result: " + result + "\n");
                 
+        //only keep highest score in user file
+        user.saveHighestScore(quiz.getNumCorrectAnswers());
         //save game
-        quiz.saveHighestScore();
+        userRecord.saveRecord(user);
         userRecord.saveGame(quiz);
         
         // 3. Ask to continue
@@ -246,6 +249,7 @@ public class MainController {
         {
             String save = ui.getUserInput("Save progress? (y/n): ");
             if (save.equalsIgnoreCase("y")) {
+                userRecord.saveRecord(user);
                 userRecord.saveGame(quiz);
                 break;
             }

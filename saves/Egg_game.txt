@@ -1,0 +1,4 @@
+username=Egg
+currentQuestionIndex=10
+numCorrectAnswers=5
+questions=18,11,7,2,5,20,27,22,25,1,

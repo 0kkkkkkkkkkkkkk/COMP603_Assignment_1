@@ -1,5 +1,0 @@
-username=Marling
-petName=Kat
-currentQuestionIndex=15
-numCorrectAnswers=13
-questions=4,1,10,14,5,24,22,11,26,27,25,17,13,3,23,

@@ -1,0 +1,3 @@
+username=Egg
+petName=Tart
+highScore=10

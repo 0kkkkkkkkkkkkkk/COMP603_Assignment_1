@@ -1,0 +1,3 @@
+username=Silver
+petName=Test
+highScore=7
