@@ -13,8 +13,8 @@ import Model.User;
 import Model.QuizSession;
 
 public interface UserRecord {
-    void saveRecord(User user);
-    User loadRecord(String username);
+//    void saveRecord(User user);
+//    User loadRecord(String username);
 
     void saveGame(QuizSession session);
     QuizSession loadGame(String username);

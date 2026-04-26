@@ -13,7 +13,7 @@ import java.util.*;
 public class QuestionPool {
     //hashMap to keep track of question index and question object
     private Map<Integer, Question> questionPool = new HashMap<>();
-    private Random random = new Random();
+//    private Random random = new Random();
 
     public QuestionPool() {
         questionPool = new HashMap<>();
@@ -322,7 +322,7 @@ public class QuestionPool {
             """,
             """
             In PlantUML, association is represented by a solid arrow. The number
-            of hyphens in the arrow increases the arrow’s length in the diagram.
+            of hyphens in the arrow increases the arrow's length in the diagram.
             Use this arrow to show communication between an actor and usecase.
             """,
             2, 18));
@@ -337,8 +337,8 @@ public class QuestionPool {
             """
             For good design of code, one of the principles to follow is 
             Interface Segregation Principle (ISP). It states that 'A client
-            should never be forced to implement an interface that it doesn’t
-            use or clients shouldn't be forced to depend on methods they don’t
+            should never be forced to implement an interface that it doesn't
+            use or clients shouldn't be forced to depend on methods they don't
             use'.
             """,
             1, 19));

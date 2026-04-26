@@ -46,7 +46,14 @@ public class QuizSession {
     public void incrementScore() {
         numCorrectAnswers++;
     }
-
+    
+    //added method to increment current question index on object
+    public void incrementCurrentQuestionIndex()
+    {
+        currentQuestionIndex++;
+    }
+    
+    //TO DO: make set methods to update object attributes?
 
 //    public void nextQuestion() {
 //        currentQuestionIndex++;
