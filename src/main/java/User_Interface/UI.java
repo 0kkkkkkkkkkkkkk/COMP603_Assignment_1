@@ -13,4 +13,9 @@ public interface UI {
     void displayText(String text);
     void displayError(String text);
     String getUserInput(String prompt);
+    void slowPrint(String text);
+    
+    
 }
+
+

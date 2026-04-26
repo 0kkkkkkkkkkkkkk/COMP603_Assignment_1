@@ -43,15 +43,30 @@ public class QuizSession {
         return user;
     }
 
+    public void answerCorrect() {
+        numCorrectAnswers++;
+        currentQuestionIndex++;
+    }
+
+    public void answerWrong() {
+        currentQuestionIndex++;
+    }
+    
     public void incrementScore() {
         numCorrectAnswers++;
     }
     
+    public String getScoreText() {
+    return ("You got " + numCorrectAnswers + "/" + questions.size() + " questions correct.");
+}
+    
+    /*
     //added method to increment current question index on object
     public void incrementCurrentQuestionIndex()
     {
         currentQuestionIndex++;
     }
+    */
     
     //only save highest score in user's file
     public void saveHighestScore()
