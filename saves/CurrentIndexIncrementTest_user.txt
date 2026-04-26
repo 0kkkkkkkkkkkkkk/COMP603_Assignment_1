@@ -1,0 +1,3 @@
+username=CurrentIndexIncrementTest
+petName=Test
+highScore=6

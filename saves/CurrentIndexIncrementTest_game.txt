@@ -1,0 +1,4 @@
+username=CurrentIndexIncrementTest
+currentQuestionIndex=10
+numCorrectAnswers=6
+questions=24,21,16,27,6,7,15,14,22,20,

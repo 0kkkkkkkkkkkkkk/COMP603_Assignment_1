@@ -46,4 +46,10 @@ public class User {
         }
     }
     
+    //added for when users have existing file but start new game with different pet name
+    public void setPetName(String name)
+    {
+        this.petName = name;
+    }
+    
 }

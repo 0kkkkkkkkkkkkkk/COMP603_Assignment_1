@@ -2,6 +2,7 @@ package User_Interface;
 
 public class InputHelper {
 
+    //error check for prompts that ask for "y" or "n"
     public static String getYesNo(UI ui, String msg) {
         while(true) {
             String input = ui.getUserInput(msg);
@@ -15,6 +16,7 @@ public class InputHelper {
         }
     }
 
+    //check user input for answering a quiz question
     public static String getQuizAnswer(UI ui) {
         while(true) {
             String input = ui.getUserInput("Answer (1-3 or quit): ");

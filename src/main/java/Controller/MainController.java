@@ -71,6 +71,9 @@ public class MainController {
         
         //keep existing highScore if user file already exists
         user = userRecord.loadRecord(username);
+        //update petName in case users have existing file but want to start
+        //new game and change pet name
+        user.setPetName(petName);
         //create new user if user file does not exist
         if (user == null) {
             user = new User(username, petName, 0);
@@ -87,7 +90,6 @@ public class MainController {
         //fetch generated questions with size as arg
         List<Question> questions = questionPool.getRandomQuestions(numQuestions);
         ui.displayText("\nQuest: You will now attempt the Java competition!");
-        //ui.displayText("DEBUG: Number of questions = " + questions.size() + "\n");
         ui.getUserInput("Enter anything to continue...");
         ui.displayText("");
         
@@ -131,19 +133,24 @@ public class MainController {
             //get question text
             ui.displayText(q.getQuestionText());
 
-
             String input = inHelp.getQuizAnswer(ui);
             
-            //check if user answers correctly
-            if(q.checkAnswer(input)) {
+            //check user input
+            if (input.equalsIgnoreCase("quit"))
+            {
+                handleExitDuringGame();
+                return;
+            }
+            //check if user answer matches answer
+            else if (q.checkAnswer(input)) {
                 quiz.answerCorrect();
                 ui.displayText("Correct!");
-            } else {
+            } 
+            else 
+            {
                 quiz.answerWrong();
                 ui.displayText("Incorrect.");
             }
-            //update quiz object by increasing CurrentQuesitonIndex 
-            quiz.incrementCurrentQuestionIndex();
             
             //display question explanation
             ui.displayText(questions.get(i).getExplanation());
@@ -158,12 +165,10 @@ public class MainController {
     }
 
     private void finishQuiz() {
-
-        int score = quiz.getNumCorrectAnswers();
-        int totalQuestions = quiz.getQuestions().size();
+//        int score = quiz.getNumCorrectAnswers();
+//        int totalQuestions = quiz.getQuestions().size();
         //get trophy type
         String result = quiz.calculateResult();
-
         
         ui.displayText("\n=== RESULTS ===");
         // 1. Show score + result
@@ -180,38 +185,20 @@ public class MainController {
         
         // 3. Ask to continue
         //added error checking
-        while (true)
-        {
-            String continueChoice = ui.getUserInput("Would you like to like to return to menu? (y/n): ");
+        String continueChoice = inHelp.getYesNo(ui, "Would you like to like to return to menu? (y/n): ");
 
-            if (continueChoice.equalsIgnoreCase("n")) {
-                exit();
-            }
-            else if (continueChoice.equalsIgnoreCase("y"))
-            {
-                break;
-            }
-            ui.displayError("Please enter a valid answer");
+        if (continueChoice.equalsIgnoreCase("n")) {
+            exit();
         }
-
         // if yes -> returns to menu automatically because of while true loop
     }
 
     private void handleExitDuringGame() {
-        while (true)
-        {
-            String save = ui.getUserInput("Save progress? (y/n): ");
-            if (save.equalsIgnoreCase("y")) {
-                userRecord.saveRecord(user);
-                userRecord.saveGame(quiz);
-                break;
-            }
-            else if (save.equalsIgnoreCase("n"))
-            {
-                break;
-            }
-            //error handling invalid input
-            ui.displayError("Please enter a valid answer");
+ 
+        String save = inHelp.getYesNo(ui, "Save progress? (y/n): ");
+        if (save.equalsIgnoreCase("y")) {
+            userRecord.saveRecord(user);
+            userRecord.saveGame(quiz);
         }
     }
 
