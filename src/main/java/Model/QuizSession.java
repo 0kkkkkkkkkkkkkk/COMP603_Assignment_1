@@ -53,8 +53,27 @@ public class QuizSession {
         currentQuestionIndex++;
     }
     
-    //TO DO: make set methods to update object attributes?
+    //only save highest score in user's file
+    public void saveHighestScore()
+    {
+        if (numCorrectAnswers > user.getHighScore())
+        {
+            user.setHighScore(numCorrectAnswers);
+        }
+    }
 
+    /**
+     * Determines trophy result
+     */
+    public String calculateResult() {
+        double percentage = (double) numCorrectAnswers / questions.size() * 100;
+
+        if (percentage >= 80) return "Gold trophy";
+        if (percentage >= 70) return "Silver trophy";
+        if (percentage >= 60) return "Bronze trophy";
+        return "Lose :(";
+    }
+    
 //    public void nextQuestion() {
 //        currentQuestionIndex++;
 //    }
@@ -66,16 +85,4 @@ public class QuizSession {
 //    public Question getCurrentQuestion() {
 //        return questions.get(currentQuestionIndex);
 //    }
-
-    /**
-     * Determines trophy result
-     */
-    public String calculateResult() {
-        double percentage = (double) numCorrectAnswers / questions.size() * 100;
-
-        if (percentage >= 80) return "Gold";
-        if (percentage >= 70) return "Silver";
-        if (percentage >= 60) return "Bronze";
-        return "Loss";
-    }
 }

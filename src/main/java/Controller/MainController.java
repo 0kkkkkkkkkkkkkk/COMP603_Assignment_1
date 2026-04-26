@@ -23,6 +23,7 @@ import java.util.List;
 
 public class MainController {
     //added variable to easily adjust question size
+    //note: only applies to new games. old games based off size of question id list
     int numQuestions = 10;
             
     private UI ui;
@@ -53,6 +54,7 @@ public class MainController {
                 case 1 -> startNewGame();
                 case 2 -> loadGame();
                 case 3 -> exit();
+                //menu returns -1 if invalid input
                 default -> ui.displayError("Invalid option.");
             }
         }
@@ -61,10 +63,19 @@ public class MainController {
     public void startNewGame() {
         String username = ui.getUserInput("Enter username: ");
         String petName = ui.getUserInput("Enter pet name: ");
-
-        //create new User object with highScore of 0
-        User user = new User(username, petName, 0);
         
+        User user;
+        //keep existing highScore if user file already exists
+        quiz = userRecord.loadGame(username);
+        if (quiz != null) {
+            user = new User(username, petName, quiz.getUser().getHighScore());
+        }
+        else
+        {
+            //create new User object with highScore of 0 if user file does not exist
+            user = new User(username, petName, 0);
+        }
+                
         //ask to display introduction
         String introChoice = ui.getUserInput("Enter anything to view "
                 + "introduction, or type \"s\" to skip: ");
@@ -94,6 +105,8 @@ public class MainController {
         
         //create QuizSession object
         quiz = new QuizSession(0, questions, 0, user);
+        //TESTING HIGHSCORE
+//        System.out.println("HIGHSCORE "+ quiz.getUser().getHighScore());
         runQuiz();
     }
     
@@ -130,7 +143,7 @@ public class MainController {
 
         //iterate through questions list, starting at CurrentQuestionIndex
         //suitable for continuing off a save file and starting new game
-        for (int i = quiz.getCurrentQuestionIndex(); i < questions.size(); i++) {
+        for (int i = quiz.getCurrentQuestionIndex(); i < questions.size(); i++) {         
             //get Question object (element) at index i in questions list
             Question q = questions.get(i);
             int questionNumber = i + 1;
@@ -147,11 +160,6 @@ public class MainController {
                 
                 //check if user wants to quit
                 if (input.equalsIgnoreCase("quit")) {
-//                    //---why?
-//                    quiz = new QuizSession(i, questions,
-//                            quiz.getNumCorrectAnswers(),
-//                            quiz.getUser());
-
                     handleExitDuringGame();
                     return;
                 }
@@ -209,8 +217,9 @@ public class MainController {
         // 1. Show score + result
         ui.displayText("You got " + score + "/" + totalQuestions + " questions correct.");
         ui.displayText("Result: " + result + "\n");
-        
+                
         //save game
+        quiz.saveHighestScore();
         userRecord.saveGame(quiz);
         
         // 3. Ask to continue

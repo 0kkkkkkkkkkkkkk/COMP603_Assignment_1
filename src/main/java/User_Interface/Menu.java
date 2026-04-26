@@ -29,7 +29,6 @@ public class Menu {
         try {
             return Integer.parseInt(ui.getUserInput("Choose option (1/2/3): "));
         } catch (NumberFormatException e) {
-//            ui.displayError("Invalid input.\n");
             return -1;
         }
     }
