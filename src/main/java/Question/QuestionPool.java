@@ -47,7 +47,7 @@ public class QuestionPool {
             What is the term called for creating this object?
             1) Declare
             2) Define
-            2) Initialise
+            3) Initialise
             """,
             """
             Declaring an object or variable does not assign a value to it yet. 

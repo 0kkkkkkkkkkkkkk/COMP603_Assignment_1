@@ -1,4 +1,0 @@
-username=Gold
-currentQuestionIndex=10
-numCorrectAnswers=10
-questions=27,12,8,4,2,20,25,5,24,9,

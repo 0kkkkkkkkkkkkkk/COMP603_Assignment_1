@@ -1,3 +1,0 @@
-username=Bronze
-petName=Test
-highScore=6

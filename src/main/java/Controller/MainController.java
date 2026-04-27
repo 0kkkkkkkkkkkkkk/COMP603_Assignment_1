@@ -71,12 +71,12 @@ public class MainController {
         
         //keep existing highScore if user file already exists
         user = userRecord.loadRecord(username);
-        //update petName in case users have existing file but want to start
-        //new game and change pet name
         //create new user if user file does not exist
         if (user == null) {
             user = new User(username, petName, 0);
         }
+        //update petName in case users have existing file but want to start
+        //new game and change pet name
         user.setPetName(petName);
                 
         //ask to display introduction

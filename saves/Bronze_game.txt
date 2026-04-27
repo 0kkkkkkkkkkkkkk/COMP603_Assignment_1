@@ -1,4 +1,0 @@
-username=Bronze
-currentQuestionIndex=10
-numCorrectAnswers=6
-questions=10,14,11,21,18,17,13,16,12,20,

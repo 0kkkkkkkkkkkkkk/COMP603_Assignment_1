@@ -1,3 +1,0 @@
-username=Pan
-petName=Cakes
-highScore=10

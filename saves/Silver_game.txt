@@ -1,4 +1,0 @@
-username=Silver
-currentQuestionIndex=10
-numCorrectAnswers=7
-questions=11,27,23,9,3,4,18,16,15,8,
