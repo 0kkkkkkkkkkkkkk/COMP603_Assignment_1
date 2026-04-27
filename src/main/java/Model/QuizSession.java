@@ -60,14 +60,14 @@ public class QuizSession {
         return "You got " + numCorrectAnswers + "/" + questions.size() + " questions correct.";
     }
     
-    //only save highest score in user's file
-    public void saveHighestScore()
-    {
-        if (numCorrectAnswers > user.getHighScore())
-        {
-            user.setHighScore(numCorrectAnswers);
-        }
-    }
+//    //only save highest score in user's file
+//    public void saveHighestScore()
+//    {
+//        if (numCorrectAnswers > user.getHighScore())
+//        {
+//            user.setHighScore(numCorrectAnswers);
+//        }
+//    }
 
     /**
      * Determines trophy result
